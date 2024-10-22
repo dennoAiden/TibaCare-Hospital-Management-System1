@@ -917,7 +917,7 @@ h1 {
 }
 
 .about-section {
-   background-color: #fdfdfd;
+  background-color: #fdfdfd;
   padding: 50px 20px;
 }
 
@@ -925,6 +925,9 @@ h1 {
   width: 100vw;
   margin: 0 auto;
   padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .about-content {
@@ -952,8 +955,9 @@ h1 {
   font-size: 1.2rem;
   color: #051d40;
   line-height: 1.6;
+  display: flex;
+  flex-wrap: wrap;
 }
-
 .slideshow-container {
   margin: 20px 0;
 }

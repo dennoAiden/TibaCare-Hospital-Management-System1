@@ -1,36 +1,26 @@
 import React from "react";
-import Slider from "react-slick";
+// import Slider from "react-slick";
 import Navbar from "./Navbar"; 
 import Footer from "./Footer"; 
 
 
 function About() {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-  };
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-  };
+// const settings = {
+//     dots: true,
+//     infinite: true,
+//     speed: 500,
+//     slidesToShow: 1,
+//     slidesToScroll: 1,
+//     autoplay: true,
+//     autoplaySpeed: 3000,
+//   };
 
   return (
     <div>
       <section className="about-section">
         <Navbar />
 
-        <div className="slideshow-container">
+        {/* <div className="slideshow-container">
           <Slider {...settings}>
             <div>
               <img src="/images/image1.jpg" alt="Slide 1" className="slide-image" />
@@ -42,7 +32,7 @@ function About() {
               <img src="/images/image3.jpg" alt="Slide 3" className="slide-image" />
             </div>
           </Slider>
-        </div>
+        </div> */}
 
         <div className="about-container">
           <div className="about-content">
