@@ -1,8 +1,8 @@
-"""Initial Migration
+"""initial migration
 
-Revision ID: fc4f68cfd870
+Revision ID: 3dbd952b5fcc
 Revises: 
-Create Date: 2024-10-19 21:01:05.027646
+Create Date: 2024-10-22 03:08:18.063666
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'fc4f68cfd870'
+revision = '3dbd952b5fcc'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -41,18 +41,19 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(), nullable=True),
     sa.Column('doctorId', sa.String(), nullable=True),
-    sa.Column('first_name', sa.String(), nullable=True),
-    sa.Column('last_name', sa.String(), nullable=True),
-    sa.Column('email', sa.String(), nullable=True),
-    sa.Column('bio', sa.String(), nullable=True),
+    sa.Column('first_name', sa.String(length=50), nullable=True),
+    sa.Column('last_name', sa.String(length=50), nullable=True),
+    sa.Column('email', sa.String(), nullable=False),
+    sa.Column('department_id', sa.Integer(), nullable=True),
+    sa.Column('bio', sa.Text(), nullable=True),
     sa.Column('education', sa.String(), nullable=True),
     sa.Column('certifications', sa.String(), nullable=True),
-    sa.Column('specialty', sa.String(), nullable=True),
-    sa.Column('image', sa.String(), nullable=True),
-    sa.Column('department_id', sa.Integer(), nullable=True),
-    sa.Column('password', sa.String(), nullable=True),
+    sa.Column('specialty', sa.String(length=50), nullable=True),
+    sa.Column('image', sa.String(length=200), nullable=True),
+    sa.Column('password', sa.String(), nullable=False),
     sa.ForeignKeyConstraint(['department_id'], ['departments.id'], ),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('email')
     )
     op.create_table('appointments',
     sa.Column('id', sa.Integer(), nullable=False),

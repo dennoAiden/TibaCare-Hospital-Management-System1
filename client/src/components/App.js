@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from './AuthContext'; // Import AuthProvider
 import Gallery from './Gallery';
 import InfoCards from './InfoCards';
 import Navbar from './Navbar';
+import Footer from './Footer';
 
 const images = [
     { url: 'https://img.freepik.com/free-photo/african-american-doctor-patient-doing-consultation_482257-20161.jpg?semt=ais_hybrid', alt: 'xray' },
@@ -21,6 +22,7 @@ function App() {
                 <Gallery images={images} />
                 <InfoCards />
             </div>
+            <Footer />
         </>
     );
 }

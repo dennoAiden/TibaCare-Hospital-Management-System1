@@ -10,6 +10,7 @@ import Signup from "./Signup";
 import DoctorDashboard from "./DoctorDashboard";
 import DoctorProfileContainer from "./DoctorProfileContainer"; // Import DoctorProfileContainer
 import PrivateRoute from "./PrivateRoute";
+import DoctorProfile from "./DoctorProfile";
 
 const routes = [
     {
@@ -33,8 +34,12 @@ const routes = [
         element: <Departments />
     },
     {
-        path: "/departments/:departmentId", // Route for doctors in a specific department
-        element: <Doctors /> // Use Doctors component here
+        path: "/departments/:departmentId", 
+        element: <Doctors /> 
+    },
+    {
+        path: "/doctors/:doctorId", 
+        element: <DoctorProfile /> 
     },
     {
         path: '/signup',
@@ -42,15 +47,15 @@ const routes = [
     },
     {
         path: '/patientdashboard',
-        element: <PrivateRoute element={<PatientDashboard />} />  // Protect patient dashboard
+        element: <PrivateRoute element={<PatientDashboard />} />
     },
     {
         path: '/doctordashboard',
-        element: <PrivateRoute element={<DoctorDashboard />} />  // Protect doctor dashboard
+        element: <PrivateRoute element={<DoctorDashboard />} />
     },
     {
-        path: '/doctors/:doctorId/profile', // Route for doctor profile
-        element: <DoctorProfileContainer /> // Render DoctorProfileContainer component
+        path: '/doctors/:doctorId/profile', 
+        element: <DoctorProfileContainer /> 
     }
 ];
 

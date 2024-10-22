@@ -31,7 +31,8 @@ class Patient(db.Model, sm):
             "gender": self.gender,
             "email": self.email,
             "phone_number": self.phone_number,
-            "medical_records": [appointment.medical_records for appointment in self.appointments]
+            "medical_records": [appointment.medical_records for appointment in self.appointments],
+            "appointments": [appointment.to_dict() for appointment in self.appointments]
         }
 
     def __repr__(self):
@@ -81,6 +82,7 @@ class Department(db.Model, sm):
             "name": self.name,
             "description": self.description,
             "image": self.image,
+            "doctors": [doctor.to_dict() for doctor in self.doctors]  # New field for doctor list in department dictionary. This is an association proxy that automatically fetches and manages related doctor objects.  # New field for doctor list in department dictionary. This is an association proxy that automatically fetches and manages related doctor objects.  # New field for doctor list in department dictionary. This is an association proxy that automatically fetches and manages related doctor objects.  # New
         }
 
     def __repr__(self):
@@ -97,16 +99,14 @@ class Doctor(db.Model, sm):
     first_name = db.Column(db.String(50))
     last_name = db.Column(db.String(50))
     email = db.Column(db.String, unique=True, nullable=False)
+    department_id = db.Column(db.Integer, db.ForeignKey("departments.id"))
     bio = db.Column(db.Text)
     education = db.Column(db.String)
     certifications = db.Column(db.String)
     specialty = db.Column(db.String(50))
     image = db.Column(db.String(200))
-    department_id = db.Column(db.Integer, db.ForeignKey("departments.id"))
     password = db.Column(db.String, nullable=False)
-    years_of_experience = db.Column(db.Integer)  # New field for years of experience
-    achievements = db.Column(db.String)  # New field for achievements
-
+   
     appointments = db.relationship("Appointment", back_populates="doctor")
     department = db.relationship("Department", back_populates="doctors")
 
@@ -124,8 +124,6 @@ class Doctor(db.Model, sm):
             "specialty": self.specialty,
             "image": self.image,
             "department_id": self.department_id,
-            "years_of_experience": self.years_of_experience,  # Include years of experience
-            "achievements": self.achievements,  # Include achievements
         }
 
     def to_card_dict(self):

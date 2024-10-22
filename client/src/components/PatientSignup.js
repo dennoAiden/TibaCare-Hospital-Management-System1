@@ -48,7 +48,7 @@ function PatientSignup() {
         onSubmit: async (values, actions) => {
             setLoading(true);
             try {
-                const response = await fetch('/patientsignup', {
+                const response = await fetch('/api/patientsignup', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

@@ -1,13 +1,13 @@
 import React from "react";
-import Navbar from "./Navbar"; // Adjust the path if needed
-import Footer from "./Footer"; // Adjust the path if needed
-import './Contact.css'; // Ensure to import the CSS file
+import Navbar from "./Navbar"; 
+import Footer from "./Footer"; 
+
 
 
 function Contact() {
   return (
     <div>
-      <Navbar /> {/* Include the Navbar here */}
+      <Navbar /> 
       <section className="contact">
         <div className="contact-container">
           <h2 className="contact-title">Contact Us</h2>
@@ -31,3 +31,4 @@ function Contact() {
 }
 
 export default Contact;
+

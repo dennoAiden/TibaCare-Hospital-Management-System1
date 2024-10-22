@@ -1,4 +1,4 @@
-from flask import Flask, request, session, make_response,jsonify
+from flask import Flask, request, session, make_response,jsonify, send_from_directory
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_restful import Api, Resource
@@ -17,6 +17,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['SESSION_COOKIE_SECURE'] = True
 app.json.compact = False
 
 migrate = Migrate(app, db)
@@ -26,23 +27,48 @@ CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://local
 
 db.init_app(app)
 
-# Department List
-class DepartmentList(Resource):
+
+
+class Images(Resource):
     def get(self):
-        departments_dict = [department.to_dict() for department in Department.query.all()]
-        return make_response(departments_dict, 200)
+        # Get the model type and filename from query parameters
+        model_type = request.args.get('model').lower()  # Convert to lowercase
+        filename = request.args.get('filename')
 
-# Doctors by Department
-@app.route('/api/departments/<int:department_id>/doctors')
-def get_doctors_by_department(department_id):
-    doctors = Doctor.query.filter_by(department_id=department_id).all()
-    return jsonify([doctor.to_card_dict() for doctor in doctors])
+        if not filename:
+            return {"message": "Filename is required"}, 400
 
-# Doctor Profile Information
-@app.route('/api/doctors/<int:doctor_id>', methods=['GET'])
-def get_doctor_profile(doctor_id):
-    doctor = Doctor.query.get_or_404(doctor_id)
-    return jsonify(doctor.to_profile_dict())
+        # Determine the model and fetch the image
+        if model_type == 'doctor':
+            doctor = Doctor.query.filter_by(image=filename).first()  # Adjust based on your field
+            if doctor:
+                return send_from_directory(UPLOAD_FOLDER, filename)
+            else:
+                return {"message": "Doctor image not found"}, 404
+
+        elif model_type == 'department':
+            department = Department.query.filter_by(image=filename).first()  # Adjust based on your field
+            if department:
+                return send_from_directory(UPLOAD_FOLDER, filename)
+            else:
+                return {"message": "Department image not found"}, 404
+
+        return {"message": "Invalid model type"}, 400
+
+    
+class DoctorsByDepartment(Resource):
+    def get(self, id):
+        department = Department.query.filter_by(id=id).first()
+        if not department:
+            return {"error": "Department not found"}, 404
+        doctors_dict = [doctor.to_dict() for doctor in department.doctors]
+        return make_response(doctors_dict, 200)
+
+
+class DoctorProfile(Resource):
+    def get(self, id):
+        doctor = Doctor.query.filter_by(id=id).first()
+        return make_response(doctor.to_dict(), 200)
 
 class DoctorSignup(Resource):
     def post(self):
@@ -138,7 +164,7 @@ class PatientLogin(Resource):
 class Logout(Resource):
     def delete(self):
         session.pop('user_id', None)
-        return {"message": "Logged out Successfully!"}, 204
+        return {}, 204
 
 # Check Session Resource
 class CheckSession(Resource):
@@ -168,7 +194,6 @@ class DoctorById(Resource):
 class DepartmentList(Resource):
     def get(self):
         departments_dict =[department.to_dict() for department in Department.query.all()]
-        
         return make_response(departments_dict, 200)
     
 class PatientById(Resource):
@@ -196,22 +221,21 @@ class Appointment(Resource):
 
         return jsonify([appointment.to_dict() for appointment in appointments])
 
+
 # Register API Resources
-api.add_resource(DoctorSignup, '/doctorsignup', endpoint='doctorsignup')
-api.add_resource(DoctorLogin, '/doctorlogin', endpoint='doctorlogin')
-api.add_resource(Logout, '/logout', endpoint=None)
-api.add_resource(CheckSession, '/check_session', endpoint='check_session')
-
-api.add_resource(DepartmentList, '/departments', endpoint='departments')
-api.add_resource(PatientSignup, '/patientsignup', endpoint='patientsignup')
-api.add_resource(PatientLogin, '/patientlogin', endpoint='patientlogin')
-api.add_resource(DoctorById, '/doctor/<int:id>')
-api.add_resource(PatientById, '/patient/<int:id>')
-api.add_resource(Appointment, '/appointments', '/appointments/<int:appointment_id>')
-
-
-api.add_resource(DepartmentList, '/api/departments', endpoint='departments')  # Updated endpoint
-
+api.add_resource(DoctorSignup, '/api/doctorsignup', endpoint='doctorsignup')
+api.add_resource(DoctorLogin, '/api/doctorlogin', endpoint='doctorlogin')
+api.add_resource(Logout, '/api/logout', endpoint=None)
+api.add_resource(CheckSession, '/api/check_session', endpoint='check_session')
+api.add_resource(PatientSignup, '/api/patientsignup', endpoint='patientsignup')
+api.add_resource(PatientLogin, '/api/patientlogin', endpoint='patientlogin')
+api.add_resource(DoctorById, '/api/doctor/<int:id>')
+api.add_resource(PatientById, '/api/patient/<int:id>')
+api.add_resource(Appointment, '/api/appointments', '/api/appointments/<int:appointment_id>')
+api.add_resource(DepartmentList, '/api/departments', endpoint='departments')
+api.add_resource(DoctorsByDepartment, '/api/departments/<int:id>')
+api.add_resource(DoctorProfile, '/api/doctors/<int:id>')
+api.add_resource(Images, '/api/images')
 
 if __name__ == "__main__":
     app.run(port=5555)

@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const fetchSession = async () => {
             try {
-                const response = await fetch(`/check_session`, {
+                const response = await fetch(`/api/check_session`, {
                     method: 'GET',
                     credentials: 'include',
                 });

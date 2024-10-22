@@ -6,7 +6,7 @@ function Navbar() {
   const { user, role, setUser } = useAuth();
 
   const handleLogout = () => {
-    fetch("/logout", {
+    fetch("/api/logout", {
       method: 'DELETE',
       credentials: 'include',
     }).then(resp => {

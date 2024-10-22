@@ -64,7 +64,7 @@ function DoctorSignup() {
             }
 
             try {
-                const response = await fetch('/doctorsignup', {
+                const response = await fetch('/api/doctorsignup', {
                     method: 'POST',
                     body: formData,  // Send FormData (including image)
                 });
@@ -90,7 +90,7 @@ function DoctorSignup() {
     useEffect(() => {
         const fetchDepartments = async () => {
             try {
-                const response = await fetch('/departments'); 
+                const response = await fetch('/api/departments'); 
                 if (!response.ok) {
                     throw new Error('Failed to fetch departments');
                 }
