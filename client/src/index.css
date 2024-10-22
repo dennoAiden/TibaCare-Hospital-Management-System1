@@ -1046,6 +1046,66 @@ h1 {
   color: white !important;
 }
 
+.doctor-details {
+  margin-top: 7em !important; /* Ensure space above the card */
+  border-radius: 12px; /* Rounded corners */
+  padding: 20px; /* Padding inside the card */
+  margin-bottom: 20px; /* Space below the card */
+  background: ( #ffffff);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Strong shadow for card effect */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
+  display: flex; /* Use flexbox for responsive content layout */
+  flex-direction: column; /* Stack content vertically */
+  align-items: center; /* Center-align content */
+  text-align: center; /* Center text */
+}
+
+.doctor-info {
+  display: flex;
+  justify-content: center; /* Horizontally center the items */
+  align-items: center; /* Vertically center the items */
+  padding: 10px;
+  gap: 20px; /* Add space between doctor details */
+}
+
+.doctor-details:hover {
+  transform: translateY(-5px); /* Lift card slightly on hover */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* Increase shadow on hover */
+}
+
+.doctor-details h2 {
+  font-size: 24px; /* Larger font for heading */
+  margin-bottom: 15px; /* Space below heading */
+  color: #333; /* Dark heading color */
+}
+
+.doctor-details p {
+  font-size: 16px; /* Standard text size */
+  margin: 10px 0; /* More space between paragraphs */
+  color: #555; /* Lighter color for paragraph text */
+}
+
+.doctor-details strong {
+  color: #000; /* Bold text color */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .doctor-details {
+    margin-top: 4em; /* Adjust margin on smaller screens */
+    padding: 15px; /* Reduce padding */
+  }
+
+  .doctor-details h2 {
+    font-size: 20px; /* Adjust font size for smaller screens */
+  }
+
+  .doctor-info {
+    flex-direction: column; /* Stack doctor info vertically on smaller screens */
+    gap: 10px; /* Reduce gap between items */
+  }
+}
+
 
 
 @media (max-width: 720px) {
@@ -1132,5 +1192,6 @@ h1 {
 .back-button {
     margin-top: 0;
 }
+
 }
 

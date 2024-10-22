@@ -109,6 +109,7 @@ class Doctor(db.Model, sm):
    
     appointments = db.relationship("Appointment", back_populates="doctor")
     department = db.relationship("Department", back_populates="doctors")
+    patient = association_proxy("appointments", "patient", creator=lambda patient_obj: Appointment(patient=patient_obj))
 
     def to_dict(self):
         return {

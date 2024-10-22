@@ -220,6 +220,18 @@ class Appointment(Resource):
         ).all()
 
         return jsonify([appointment.to_dict() for appointment in appointments])
+    
+class Patients(Resource):
+    def get(self, id):
+        doctor = Doctor.query.get(id)
+        if not doctor:
+            return jsonify({"error": "Doctor not found"}), 404
+        
+        patients = [patient.to_dict() for patient in doctor.patient]
+
+        return (
+            patients,
+        ), 200
 
 
 # Register API Resources
@@ -236,6 +248,7 @@ api.add_resource(DepartmentList, '/api/departments', endpoint='departments')
 api.add_resource(DoctorsByDepartment, '/api/departments/<int:id>')
 api.add_resource(DoctorProfile, '/api/doctors/<int:id>')
 api.add_resource(Images, '/api/images')
+api.add_resource(Patients,  '/api/patients/doctor/<int:id>')
 
 if __name__ == "__main__":
     app.run(port=5555)
