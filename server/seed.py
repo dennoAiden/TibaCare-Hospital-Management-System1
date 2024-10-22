@@ -90,7 +90,48 @@ with app.app_context():
         { 'name': 'Dr. Michael Wekesa', 'specialty': 'General Surgeon', 'image': 'Dr25.jpg', 'department_id': 7 },
         { 'name': 'Dr. Evelyn Wanjiru', 'specialty': 'General Surgeon', 'image': 'Dr26.jpg', 'department_id': 7 },
         { 'name': 'Dr. Charles Mburu', 'specialty': 'General Surgeon', 'image': 'Dr27.jpg', 'department_id': 7 },
+        
+        # Pediatrics (Department 8)
+        { 'name': 'Dr. Peter Odhiambo', 'specialty': 'Optometry', 'image': 'Dr12.jpg', 'department_id': 8 },
+        { 'name': 'Dr. Ann Wanjiru', 'specialty': 'Optometry', 'image': 'Dr13.jpg', 'department_id': 8 },
+        { 'name': 'Dr. David Maina', 'specialty': 'Optometry', 'image': 'Dr14.jpg', 'department_id': 8 },
+        
+        # Pediatrics (Department 9)
+        { 'name': 'Dr. Sarah Njeri', 'specialty': 'Radiology', 'image': 'Dr16.jpg', 'department_id': 9 },
+        { 'name': 'Dr. Richard Kamau', 'specialty': 'Radiology', 'image': 'Dr17.jpg', 'department_id': 9 },
+        { 'name': 'Dr. Fiona Wambui', 'specialty': 'Radiology', 'image': 'Dr18.jpg', 'department_id': 9 },
+        
+        # Orthopedics (Department 10)
+        { 'name': 'Dr. Samuel Otieno', 'specialty': 'ENT', 'image': 'Dr20.jpg', 'department_id': 10 },
+        { 'name': 'Dr. Lucy Wanjiru', 'specialty': 'ENT', 'image': 'Dr28.jpg', 'department_id': 10 },
+        { 'name': 'Dr. Anthony Mburu', 'specialty': 'ENT', 'image': 'Dr29.jpg', 'department_id': 10 },
 
+        # Gynecology (Department 11)
+        { 'name': 'Dr. Jack Mwangi', 'specialty': 'Oncology', 'image': 'Dr30.jpg', 'department_id': 11 },
+        { 'name': 'Dr. Carol Njeri', 'specialty': 'Oncology', 'image': 'Dr31.jpg', 'department_id': 11 },
+
+        # General Surgery (Department 12)
+        { 'name': 'Dr. Michael Wekesa', 'specialty': 'Urology', 'image': 'Dr32.jpg', 'department_id': 12 },
+        { 'name': 'Dr. Evelyn Wanjiru', 'specialty': 'Urology', 'image': 'Dr33.jpg', 'department_id': 12 },
+        { 'name': 'Dr. Charles Mburu', 'specialty': 'Urology', 'image': 'Dr34.jpg', 'department_id': 12 },
+
+        # Pediatrics (Department 13)
+        { 'name': 'Dr. Sarah Njeri', 'specialty': 'Dentistry', 'image': 'Dr35.jpg', 'department_id': 13 },
+        { 'name': 'Dr. Richard Kamau', 'specialty': 'Dentistry', 'image': 'Dr36.jpg', 'department_id': 13 },
+        { 'name': 'Dr. Fiona Wambui', 'specialty': 'Dentistry', 'image': 'Dr37.jpg', 'department_id': 13 },
+        
+        # Orthopedics (Department 14)
+        { 'name': 'Dr. Samuel Otieno', 'specialty': 'Dermatology', 'image': 'Dr41.jpg', 'department_id': 14 },
+        { 'name': 'Dr. Lucy Wanjiru', 'specialty': 'Dermatology', 'image': 'Dr42.jpg', 'department_id': 14 },
+        { 'name': 'Dr. Anthony Mburu', 'specialty': 'Dermatology', 'image': 'Dr43.jpg', 'department_id': 14 },
+
+        # Gynecology (Department 15)
+        { 'name': 'Dr. Jack Mwangi', 'specialty': 'Nephrology', 'image': 'Dr44.jpg', 'department_id': 15},
+        { 'name': 'Dr. Angela Mwangi', 'specialty': 'Nephrology', 'image': 'Dr15.jpg', 'department_id': 15 },
+
+        # General Surgery (Department 16)
+        { 'name': 'Dr. Kevin Otieno', 'specialty': 'Psychiatry', 'image': 'Dr19.jpg', 'department_id': 16},
+        { 'name': 'Dr. Kevin Otieno', 'specialty': 'Psychiatry', 'image': 'Dr40.jpg', 'department_id': 16 },
     ]
 
     # Seed data into the database

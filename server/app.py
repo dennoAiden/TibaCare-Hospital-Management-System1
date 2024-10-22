@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'images')
 app.config['SECRET_KEY'] = os.urandom(24)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -237,5 +237,5 @@ api.add_resource(DoctorsByDepartment, '/api/departments/<int:id>')
 api.add_resource(DoctorProfile, '/api/doctors/<int:id>')
 api.add_resource(Images, '/api/images')
 
-if __name__ == "__main__":
-    app.run(port=5555)
+# if __name__ == "__main__":
+#     app.run(port=5555)
