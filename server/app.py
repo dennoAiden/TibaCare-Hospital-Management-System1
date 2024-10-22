@@ -1,4 +1,4 @@
-from flask import Flask, request, session, make_response,jsonify, send_from_directory
+from flask import Flask, request, session, make_response,jsonify, send_from_directory, render_template
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_restful import Api, Resource
@@ -9,11 +9,19 @@ from models import db, Doctor, Department, Patient, Appointment
 from werkzeug.utils import secure_filename
 import os
 
-app = Flask(__name__)
+from dotenv import load_dotenv
+load_dotenv()
+
+app = Flask(
+    __name__,
+    static_url_path='',
+    static_folder='../client/build',
+    template_folder='../client/build'
+    )
 
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'images')
 app.config['SECRET_KEY'] = os.urandom(24)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -23,11 +31,14 @@ app.json.compact = False
 migrate = Migrate(app, db)
 api = Api(app)
 bcrypt = Bcrypt(app)
-CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://localhost:4000"}})
+CORS(app)
 
 db.init_app(app)
 
 
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("index.html")
 
 class Images(Resource):
     def get(self):
@@ -248,7 +259,3 @@ api.add_resource(DepartmentList, '/api/departments', endpoint='departments')
 api.add_resource(DoctorsByDepartment, '/api/departments/<int:id>')
 api.add_resource(DoctorProfile, '/api/doctors/<int:id>')
 api.add_resource(Images, '/api/images')
-api.add_resource(Patients,  '/api/patients/doctor/<int:id>')
-
-if __name__ == "__main__":
-    app.run(port=5555)
