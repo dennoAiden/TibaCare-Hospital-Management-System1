@@ -3,7 +3,7 @@ from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_restful import Api, Resource
 from flask_cors import CORS
-from sqlalchemy.orm import joinedload
+import datetime
 
 from models import db, Doctor, Department, Patient, Appointment
 from werkzeug.utils import secure_filename
@@ -212,25 +212,44 @@ class PatientById(Resource):
         patient = Patient.query.filter_by(id=id).first()
         return make_response(patient.to_dict(),200)
         
-class Appointment(Resource):
-    def get(self, appointment_id=None):
-        # If appointment_id is provided, fetch a single appointment
-        if appointment_id:
-            appointment = Appointment.query.options(
-                joinedload(Appointment.patient), joinedload(Appointment.doctor)
-            ).filter_by(id=appointment_id).first()
+class AppointmentBooking(Resource):
+    def post(self):
+        data = request.get_json()
 
-            if not appointment:
-                return {"error": "Appointment not found"}, 404
+        doctor_id = data.get('doctorId')
+        patient_id = session.get('user_id')  
+        date = data.get('date')
+        time = data.get('time')
+        medical_records = data.get('medical_records', "None")
 
-            return jsonify(appointment.to_dict())
+        if not doctor_id or not patient_id or not date or not time:
+            return {"error": "Missing required information (doctor, patient, date, or time)"}, 400
 
-        # Otherwise, return all appointments
-        appointments = Appointment.query.options(
-            joinedload(Appointment.patient), joinedload(Appointment.doctor)
-        ).all()
+        try:
+            appointment_date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
+            appointment_time = datetime.datetime.strptime(time, '%H:%M').time()
+        except ValueError:
+            return {"error": "Invalid date or time format"}, 400
 
-        return jsonify([appointment.to_dict() for appointment in appointments])
+        try:
+            new_appointment = Appointment(
+                doctor_id=doctor_id,
+                patient_id=patient_id,
+                date=appointment_date,
+                time=appointment_time,
+                medical_records=medical_records
+            )
+            db.session.add(new_appointment)
+            db.session.commit()
+
+            return {
+                "message": "Appointment booked successfully",
+                "data": new_appointment.to_dict(),
+                "status": 201
+            }, 201
+        except Exception as e:
+            db.session.rollback()
+            return {"error": f"Failed to book appointment: {str(e)}"}, 500
     
 class Patients(Resource):
     def get(self, id):
@@ -254,7 +273,7 @@ api.add_resource(PatientSignup, '/api/patientsignup', endpoint='patientsignup')
 api.add_resource(PatientLogin, '/api/patientlogin', endpoint='patientlogin')
 api.add_resource(DoctorById, '/api/doctor/<int:id>')
 api.add_resource(PatientById, '/api/patient/<int:id>')
-api.add_resource(Appointment, '/api/appointments', '/api/appointments/<int:appointment_id>')
+api.add_resource(AppointmentBooking, '/api/appointments/book')
 api.add_resource(DepartmentList, '/api/departments', endpoint='departments')
 api.add_resource(DoctorsByDepartment, '/api/departments/<int:id>')
 api.add_resource(DoctorProfile, '/api/doctors/<int:id>')
