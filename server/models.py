@@ -5,6 +5,7 @@ from sqlalchemy.ext.associationproxy import association_proxy
 
 db = SQLAlchemy()
 
+
 class Patient(db.Model, sm):
     __tablename__ = 'patients'
     
@@ -53,6 +54,13 @@ class Appointment(db.Model, sm):
     patient = db.relationship("Patient", back_populates="appointments")
     doctor = db.relationship("Doctor", back_populates="appointments")
 
+    def __init__(self, doctor_id, patient_id, date, time, medical_records=None):
+        self.doctor_id = doctor_id
+        self.patient_id = patient_id
+        self.date = date
+        self.time = time
+        self.medical_records = medical_records
+
     def to_dict(self):
         return {
             "id": self.id,
@@ -65,6 +73,7 @@ class Appointment(db.Model, sm):
 
     def __repr__(self):
         return f"<Appointment {self.patient_id} {self.doctor_id}>"
+
 
 class Department(db.Model, sm):
     __tablename__ = 'departments'

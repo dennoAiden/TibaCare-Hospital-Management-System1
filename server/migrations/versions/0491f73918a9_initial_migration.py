@@ -1,8 +1,8 @@
-"""create tables
+"""initial migration
 
-Revision ID: 23c50a984984
+Revision ID: 0491f73918a9
 Revises: 
-Create Date: 2024-10-22 11:46:57.388038
+Create Date: 2024-10-24 13:39:20.331812
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '23c50a984984'
+revision = '0491f73918a9'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -76,4 +76,3 @@ def downgrade():
     op.drop_table('patients')
     op.drop_table('departments')
     # ### end Alembic commands ###
-

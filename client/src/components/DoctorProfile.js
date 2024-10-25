@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import { useAuth } from './AuthContext';
+import BookAppointment from './BookAppointment';
 
 const DoctorProfile = () => {
   const { doctorId } = useParams();
   const [doctor, setDoctor] = useState(null);
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [showAppointmentForm, setShowAppointmentForm] = useState(false); 
 
   useEffect(() => {
     fetch(`/api/doctors/${doctorId}`)
@@ -18,10 +20,14 @@ const DoctorProfile = () => {
 
   const handleBookAppointment = () => {
     if (user) {
-      navigate(`/doctors/${doctor.id}`); 
+      setShowAppointmentForm(true); 
     } else {
       navigate(`/login`); 
     }
+  };
+
+  const handleCloseForm = () => {
+    setShowAppointmentForm(false); 
   };
 
   if (!doctor) {
@@ -42,8 +48,17 @@ const DoctorProfile = () => {
           <p><strong>Bio:</strong> {doctor.bio}</p>
           <p><strong>Education:</strong> {doctor.education}</p>
           <p><strong>Certifications:</strong> {doctor.certifications}</p>
-          <button className="appointment-button" onClick={handleBookAppointment}>Book Appointment</button>
+          <button className="appointment-button" onClick={handleBookAppointment}>
+            Book Appointment
+          </button>
         </div>
+
+        {showAppointmentForm && ( 
+          <div className="appointment-form-container">
+            <BookAppointment />
+            <button onClick={handleCloseForm} className="close-form-button">Close</button>
+          </div>
+        )}
       </div>
     </div>
   );
