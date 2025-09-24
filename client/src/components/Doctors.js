@@ -6,10 +6,10 @@ const DoctorsByDepartment = () => {
   const { departmentId } = useParams();
   const [doctors, setDoctors] = useState([]);
   const [error, setError] = useState(null);
-  const API_BASE_URL = '/api/images';
+  const API_BASE_URL = 'http://localhost:5000/api/images';
 
   useEffect(() => {
-    fetch(`/api/departments/${departmentId}`)
+    fetch(`http://localhost:5000/api/departments/${departmentId}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

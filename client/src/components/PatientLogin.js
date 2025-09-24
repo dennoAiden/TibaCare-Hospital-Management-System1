@@ -25,7 +25,7 @@ function PatientLogin() {
         onSubmit: async (values) => {
             setLoading(true);
             try {
-                const response = await fetch(`/api/patientlogin`, {
+                const response = await fetch(`http://localhost:5000/api/patientlogin`, {
                     method: "POST",
                     credentials: 'include',
                     headers: {

@@ -11,6 +11,7 @@ import DoctorDashboard from "./DoctorDashboard";
 import DoctorProfileContainer from "./DoctorProfileContainer"; // Import DoctorProfileContainer
 import PrivateRoute from "./PrivateRoute";
 import DoctorProfile from "./DoctorProfile";
+import Services from "./Services.js"
 
 const routes = [
     {
@@ -56,6 +57,10 @@ const routes = [
     {
         path: '/doctors/:doctorId/profile', 
         element: <DoctorProfileContainer /> 
+    },
+    {
+        path:'/services',
+        element: <Services/>
     }
 ];
 

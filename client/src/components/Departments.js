@@ -8,10 +8,10 @@ const Departments = () => {
   const [error, setError] = useState(null);
   
   // Set the base URL for the images API using the proxy
-  const API_BASE_URL = '/api/images'; // Use the proxied path
+  const API_BASE_URL = 'http://localhost:5000/api/images'; // Use the proxied path
 
   useEffect(() => {
-    fetch('/api/departments')
+    fetch('http://localhost:5000/api/departments')
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

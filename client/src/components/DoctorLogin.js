@@ -25,7 +25,7 @@ function DoctorLogin() {
         onSubmit: async (values) => {
             setLoading(true); // Start loading
             try {
-                const response = await fetch(`/api/doctorlogin`, {
+                const response = await fetch(`http://localhost:5000/api/doctorlogin`, {
                     method: "POST",
                     credentials: 'include',
                     headers: {

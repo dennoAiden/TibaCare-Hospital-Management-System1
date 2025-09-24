@@ -6,7 +6,7 @@ function Navbar() {
   const { user, role, setUser } = useAuth();
 
   const handleLogout = () => {
-    fetch("/api/logout", {
+    fetch("http://localhost:5000/api/logout", {
       method: 'DELETE',
       credentials: 'include',
     }).then(resp => {
@@ -32,6 +32,7 @@ function Navbar() {
             <li><NavLink to="/about">About</NavLink></li>
             <li><NavLink to="/departments">Departments</NavLink></li>
             <li><NavLink to="/contact">Contact</NavLink></li>
+            <li><NavLink to="/services">Services</NavLink></li>
           </ul>
         </div>
         <div className="auth-actions">

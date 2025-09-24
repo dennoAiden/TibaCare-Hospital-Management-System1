@@ -12,7 +12,7 @@ const DoctorProfile = () => {
   const [showAppointmentForm, setShowAppointmentForm] = useState(false); 
 
   useEffect(() => {
-    fetch(`/api/doctors/${doctorId}`)
+    fetch(`http://localhost:5000/api/doctors/${doctorId}`)
       .then(response => response.json())
       .then(data => setDoctor(data))
       .catch(error => console.error('Error fetching doctor profile:', error));
@@ -34,7 +34,7 @@ const DoctorProfile = () => {
     return <p>Loading doctor profile...</p>;
   }
 
-  const imageUrl = `/api/images?model=doctor&filename=${doctor.image}`;
+  const imageUrl = `http://localhost:5000/api/images?model=doctor&filename=${doctor.image}`;
 
   return (
     <div>

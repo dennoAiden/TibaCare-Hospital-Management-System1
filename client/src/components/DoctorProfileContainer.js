@@ -9,7 +9,7 @@ const DoctorProfileContainer = ({ doctorId }) => {
     useEffect(() => {
         const fetchDoctorData = async () => {
             try {
-                const response = await fetch(`/api/doctors/${doctorId}`); // Replace with your API endpoint
+                const response = await fetch(`http://localhost:5000/api/doctors/${doctorId}`); // Replace with your API endpoint
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }

@@ -31,7 +31,7 @@ app.json.compact = False
 migrate = Migrate(app, db)
 api = Api(app)
 bcrypt = Bcrypt(app)
-CORS(app)
+CORS(app, supports_credentials=True)
 
 db.init_app(app)
 
@@ -156,21 +156,24 @@ class PatientSignup(Resource):
 
 class PatientLogin(Resource):
     def post(self):
-        data = request.get_json() 
-        
-        patient = Patient.query.filter_by(email=data['email']).first()
+        data = request.get_json()
+        email = data.get("email")
+        password = data.get("password")
 
-        if patient and bcrypt.check_password_hash(patient.password, data['password']):
-            session['user_id'] = patient.id
-            session['user_role'] = 'patient'
-            
+        patient = Patient.query.filter_by(email=email).first()
+
+        if patient and bcrypt.check_password_hash(patient.password, password):
+            # Set session
+            session["user_id"] = patient.id
+            session["user_role"] = "patient"
+
             return {
-                    "message": "Login successful",
-                    "data": patient.to_dict(),
-                    "status": 200
-                }, 200
-        else:
-            return {"error": "Invalid email or password"}, 401
+                "message": "Login successful",
+                "user": patient.to_dict(),
+                "role": "patient"
+            }, 200
+
+        return {"error": "Invalid email or password"}, 401
 
 class Logout(Resource):
     def delete(self):
@@ -216,8 +219,8 @@ class AppointmentBooking(Resource):
     def post(self):
         data = request.get_json()
 
-        doctor_id = data.get('doctorId')
-        patient_id = session.get('user_id')  
+        doctor_id = data.get('doctor_id')
+        patient_id = data.get('patient_id')  
         date = data.get('date')
         time = data.get('time')
         medical_records = data.get('medical_records', "None")
@@ -263,8 +266,15 @@ class Patients(Resource):
             patients,
         ), 200
 
+class PatientsByDoctor(Resource):
+    def get(self, doctor_id):
+        doctor = Doctor.query.get_or_404(doctor_id)
+        return [p.to_dict() for p in doctor.patients], 200
+
+
 
 # Register API Resources
+api.add_resource(PatientsByDoctor,'/api/patients/doctor/<int:doctor_id>')
 api.add_resource(DoctorSignup, '/api/doctorsignup', endpoint='doctorsignup')
 api.add_resource(DoctorLogin, '/api/doctorlogin', endpoint='doctorlogin')
 api.add_resource(Logout, '/api/logout', endpoint=None)

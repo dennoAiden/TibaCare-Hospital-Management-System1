@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -8,7 +8,7 @@ const BookAppointment = () => {
     const { doctorId } = useParams();
     const navigate = useNavigate();
     const { user, loading } = useAuth();
-    const [error, setError] = useState('');
+    // const [error, setError] = useState('');
 
     const validationSchema = yup.object().shape({
         date: yup.string().required('Date is required'),
@@ -26,12 +26,12 @@ const BookAppointment = () => {
         onSubmit: async (values, { resetForm }) => {
             const appointmentData = { 
                 ...values, 
-                doctorId, 
-                patientId: user?.id 
+                doctor_id:doctorId, 
+                patient_id: user?.id 
             };
 
             try {
-                const response = await fetch('/api/appointments/book', {
+                const response = await fetch('http://localhost:5000/api/appointments/book', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
